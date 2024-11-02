@@ -1,61 +1,22 @@
 steps:
-  # Step 1: Build the Docker image
-  - name: "gcr.io/cloud-builders/docker"
-    args:
-      [
-        "build",
-        "-t",
-        "us-central1-docker.pkg.dev/${_PROJECT_ID}/my-repo/my-app:$COMMIT_SHA",
-        ".",
-      ]
+- id: 'branch name'
+  args:
+  - | 
+      echo "********************"
 
-  # Step 2: Push the Docker image to Artifact Registry
-  - name: "gcr.io/cloud-builders/docker"
-    args:
-      [
-        "push",
-        "us-central1-docker.pkg.dev/${_PROJECT_ID}/my-repo/my-app:$COMMIT_SHA",
-      ]
+- id: 'tf init'
+  name: 'hashicorp/terraform:1.9.0'
+  entrypoint: 'sh'
+  args:
+  - '-c'
+  - |
+      if [ -d "environments/$BRANCH_NAME/" ]; then 
+        cd environments/$BRANCH_NAME
+        terraform init
+      else
+        for dir in environments/*/
+        do 
+          cd ${dir}
+          env=${dir%*/}
+          env=${dir#*/}
 
-  # Step 3: Deploy to Cloud Run
-  - name: "gcr.io/google.com/cloudsdktool/cloud-sdk"
-    entrypoint: "gcloud"
-    args: [
-        "run",
-        "deploy",
-        "my-app",
-        "--image",
-        "us-central1-docker.pkg.dev/${_PROJECT_ID}/my-repo/my-app:$COMMIT_SHA",
-        "--region",
-        "us-central1",
-        "--platform",
-        "managed",
-        "--service-account",
-        "ci-service-account@${_PROJECT_ID}.iam.gserviceaccount.com",
-        "--no-allow-unauthenticated",
-      ]
-
-  # Step 4: Grant the Cloud Run Invoker role
-  - name: "gcr.io/google.com/cloudsdktool/cloud-sdk"
-    entrypoint: "gcloud"
-    args: [
-        "run",
-        "services",
-        "add-iam-policy-binding",
-        "my-app",
-        "--region",
-        "us-central1",
-        "--member=serviceAccount:ci-service-account@${_PROJECT_ID}.iam.gserviceaccount.com",
-        "--role=roles/run.invoker",
-      ]
-
-substitutions:
-  _PROJECT_ID: "mon-devops"  # Replace with the actual project ID or set dynamically in GitHub Actions
-
-
-options:
-  logging: LEGACY   # This option can be omitted as it's the default behavior for logsBucket
-logsBucket: "gs://mon-devops_cloudbuild"
-
-#options:
-#  logging: CLOUD_LOGGING_ONLY
