@@ -1,0 +1,16 @@
+Run these configuration in the GCP project first.
+(Not from GITHUB, the CI-CD pipeline is not configured yet.)
+
+1) Enable APIs.
+2) Create Cloud Storage Bucket for Terraform backend.
+3) Create a Service Account for Cloud Build via Work Load Identity.
+4) Create a Workload Identity Pool and Provider.
+
+
+Inputs
+1) Project Id.
+2) Location.
+3) Bucket Name.
+4) Service Account Name.
+5) Workload Identity Pool Name. 
+6) 

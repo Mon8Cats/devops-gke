@@ -1,0 +1,19 @@
+C:\Projects\Cloud_Lab\devops-gke>git config --global user.name
+SteveKimMHS
+
+C:\Projects\Cloud_Lab\devops-gke>git config --global user.email
+Steve.Kim@MHShealth.com
+
+
+C:\Projects\Cloud_Lab\devops-gke>git remote -v
+origin  https://github.com/Mon8Cats/devops-gke.git (fetch)
+origin  https://github.com/Mon8Cats/devops-gke.git (push)
+
+
+Windows serach>Credential Manager>Windows Credentials
+=> tow github account
+
+
+
+***This works
+C:\Projects\Cloud_Lab\devops-gke>git config credential.username SteveKimMHS
