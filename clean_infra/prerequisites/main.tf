@@ -95,12 +95,14 @@ resource "google_project_iam_member" "cloud_build_sa_roles" {
 }
 
 
+# need manual registery mapping in GCP Cloud Build
+
 # cloud build trigger
 module "cloudbuild_trigger" {
   source         = "../modules/cloudbuild_trigger"
   project_id = var.project_id
   github_owner = var.github_account
   github_repo_only = var.github_repo_only
-  cloudbuild_service_account_email = vargoogle_service_account.workload_identity_sa.email
+  cloudbuild_service_account_email = google_service_account.workload_identity_sa.email
 
 }

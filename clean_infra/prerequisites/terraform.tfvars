@@ -42,5 +42,7 @@ wi_sa_roles = [
   "roles/storage.admin",
   "roles/run.admin",
   "roles/container.developer",
-  "roles/iam.serviceAccountUser"
+  "roles/iam.serviceAccountUser",
+  #"roles/secretmanager.admin",
+  "roles/secretmanager.secretCreator"
 ]
