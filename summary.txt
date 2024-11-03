@@ -17,3 +17,11 @@ Windows serach>Credential Manager>Windows Credentials
 
 ***This works
 C:\Projects\Cloud_Lab\devops-gke>git config credential.username SteveKimMHS
+
+
+
+
+
+Ov23liH3g2zUtTuvzYBp
+40740ca0a1bc46520b836ce20f7926f63308a115
+

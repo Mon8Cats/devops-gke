@@ -50,6 +50,11 @@ variable "github_account" {
   type        = string
 }
 
+variable "github_repo_only" {
+  description = "The region for the resources"
+  type        = string
+}
+
 variable "wi_sa_roles" {
   type    = list(string)
   default = [

@@ -9,7 +9,8 @@ pre_api_list   = [
     "iam.googleapis.com",
     "iamcredentials.googleapis.com",
     "cloudbuild.googleapis.com",
-    "artifactregistry.googleapis.com"
+    "artifactregistry.googleapis.com",
+    "secretmanager.googleapis.com"
 
     #"cloudbuild.googleapis.com",       # Cloud Build API
     #"artifactregistry.googleapis.com", # Artifact Registry API
@@ -31,14 +32,15 @@ wi_provider_id = "github-provider"
 
 github_repository      = "Mon8Cats/devops-gke"
 github_account         = "Mon8Cats"  # Optional if needed
+github_repo_only  = "devops-gke"
 
 
 wi_sa_roles = [
   "roles/cloudbuild.builds.builder",
-    "roles/source.reader",
-    "roles/artifactregistry.reader",
-    "roles/storage.admin",
-    "roles/run.admin",
-    "roles/container.developer",
-    "roles/iam.serviceAccountUser"
+  "roles/source.reader",
+  "roles/artifactregistry.reader",
+  "roles/storage.admin",
+  "roles/run.admin",
+  "roles/container.developer",
+  "roles/iam.serviceAccountUser"
 ]
