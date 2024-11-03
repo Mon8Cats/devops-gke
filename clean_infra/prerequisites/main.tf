@@ -96,10 +96,11 @@ resource "google_project_iam_member" "cloud_build_sa_roles" {
 
 
 # cloud build trigger
-module "network" {
+module "cloudbuild_trigger" {
   source         = "../modules/cloudbuild_trigger"
   project_id = var.project_id
-  github_oauth_client_id = "Ov23liH3g2zUtTuvzYBp"
-  github_oauth_client_secret = "40740ca0a1bc46520b836ce20f7926f63308a115"
+  github_owner = var.github_account
+  github_repo_only = var.github_repo_only
+  cloudbuild_service_account_email = vargoogle_service_account.workload_identity_sa.email
 
 }

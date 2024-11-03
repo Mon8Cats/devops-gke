@@ -3,7 +3,7 @@ variable "project_id" {
   type        = string
 }
 
-/*
+
 variable "github_owner" {
   description = "GitHub owner (user or organization)"
   type        = string
@@ -14,11 +14,14 @@ variable "github_repo_only" {
   type        = string
 }
 
+/*
+
 variable "github_repo_name" {
   type = string
 }
 */
 
+/*
 variable "github_oauth_client_id" {
   type = string
 }
@@ -26,9 +29,9 @@ variable "github_oauth_client_id" {
 variable "github_oauth_client_secret" {
   type = string
 }
+*/
 
-/*
+
 variable "cloudbuild_service_account_email" {
   type = string
 }
-*/
