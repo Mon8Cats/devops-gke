@@ -25,12 +25,16 @@ resource "google_storage_bucket" "terraform_backend_bucket" {
       age = 365
     }
   }
+
+  depends_on = [google_project_service.enable_pre_apis]
 }
 
 # create service account
 resource "google_service_account" "workload_identity_sa" {
   account_id   = var.wi_sa_id
   display_name = "Workload Identity Service Account"
+
+  depends_on = [google_project_service.enable_pre_apis]
 }
 
 # create WI pool
@@ -39,6 +43,8 @@ resource "google_iam_workload_identity_pool" "github_pool" {
   workload_identity_pool_id = var.wi_pool_id
   display_name              = "My Workload Identity Pool"
   description               = "My Worklod Identity Pool"
+
+  depends_on = [google_project_service.enable_pre_apis]
 }
 
 # create WI provider
@@ -61,6 +67,8 @@ resource "google_iam_workload_identity_pool_provider" "github_provider" {
 
   # Specify the condition to match GitHub's repository claim
   attribute_condition = "attribute.repository == '${var.github_repository}'"
+
+  depends_on = [google_project_service.enable_pre_apis]
 }
 
 
@@ -70,6 +78,8 @@ resource "google_service_account_iam_binding" "workload_identity_binding" {
   role               = "roles/iam.workloadIdentityUser"
 
   members = [
-    "principalSet://iam.googleapis.com/${google_iam_workload_identity_pool.my_pool.name}/attribute.repository/${var.github_repository}"
+    "principalSet://iam.googleapis.com/${google_iam_workload_identity_pool.github_pool.name}/attribute.repository/${var.github_repository}"
   ]
+
+  depends_on = [google_project_service.enable_pre_apis]
 }
