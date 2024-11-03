@@ -32,7 +32,7 @@ resource "google_storage_bucket" "terraform_backend_bucket" {
 # create service account
 resource "google_service_account" "workload_identity_sa" {
   account_id   = var.wi_sa_id
-  display_name = "Workload Identity Service Account"
+  display_name = "WI Service Account"
 
   depends_on = [google_project_service.enable_pre_apis]
 }
@@ -41,8 +41,8 @@ resource "google_service_account" "workload_identity_sa" {
 resource "google_iam_workload_identity_pool" "github_pool" {
   provider                  = google-beta
   workload_identity_pool_id = var.wi_pool_id
-  display_name              = "My Workload Identity Pool"
-  description               = "My Worklod Identity Pool"
+  display_name              = "My WI Pool"
+  description               = "My Workload Identity Pool"
 
   depends_on = [google_project_service.enable_pre_apis]
 }
@@ -53,7 +53,7 @@ resource "google_iam_workload_identity_pool_provider" "github_provider" {
 
   workload_identity_pool_id         = google_iam_workload_identity_pool.github_pool.workload_identity_pool_id
   workload_identity_pool_provider_id = var.wi_provider_id
-  display_name                      = "My Workload Identity Pool Provider"
+  display_name                      = "My WI Pool Provider"
 
   attribute_mapping = {
     "google.subject"       = "assertion.sub"
@@ -72,7 +72,7 @@ resource "google_iam_workload_identity_pool_provider" "github_provider" {
 }
 
 
-# bind the service account with work
+# bind the service account with workload Identity
 resource "google_service_account_iam_binding" "workload_identity_binding" {
   service_account_id = google_service_account.workload_identity_sa.name
   role               = "roles/iam.workloadIdentityUser"
@@ -83,3 +83,13 @@ resource "google_service_account_iam_binding" "workload_identity_binding" {
 
   depends_on = [google_project_service.enable_pre_apis]
 }
+
+# bind the service account with roles for CICD
+resource "google_project_iam_member" "cloud_build_sa_roles" {
+  for_each = toset(var.wi_sa_roles)  # Convert the list to a set to iterate over
+  project  = var.project_id
+  role     = each.value
+  member   = "serviceAccount:${google_service_account.workload_identity_sa.email}"
+}
+
+

@@ -33,3 +33,12 @@ github_repository      = "Mon8Cats/devops-gke"
 github_account         = "Mon8Cats"  # Optional if needed
 
 
+wi_sa_roles = [
+  "roles/cloudbuild.builds.builder",
+    "roles/source.reader",
+    "roles/artifactregistry.reader",
+    "roles/storage.admin",
+    "roles/run.admin",
+    "roles/container.developer",
+    "roles/iam.serviceAccountUser"
+]
